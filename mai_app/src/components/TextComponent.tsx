@@ -2,7 +2,7 @@ import {View, Text, StyleProp, TextStyle} from 'react-native';
 import React from 'react';
 import {appColors} from '../constants/appColor';
 import {globalStyles} from '../styles/globalStyles';
-import { fontFamilies } from '../constants/fontFamilies';
+import {fontFamilies} from '../constants/fontFamilies';
 
 interface Props {
   text: string;
@@ -11,10 +11,11 @@ interface Props {
   flex?: number;
   font?: string;
   styles?: StyleProp<TextStyle>;
+  title?: boolean;
 }
 
 const TextComponent = (props: Props) => {
-  const {text, color, size, flex, font, styles} = props;
+  const {text, color, size, flex, font, styles, title} = props;
   return (
     <Text
       style={[
@@ -22,11 +23,14 @@ const TextComponent = (props: Props) => {
         {
           color: color ?? appColors.text,
           flex: flex ?? 0,
-          fontSize: size ?? 14,
+          fontSize: size ?? title ? 24 : 14,
           fontFamily: font ?? fontFamilies.regular,
         },
         styles,
-      ]}> {text}</Text>
+      ]}>
+      {' '}
+      {text}
+    </Text>
   );
 };
 
