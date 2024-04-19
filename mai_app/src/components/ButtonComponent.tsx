@@ -1,6 +1,5 @@
-import {View, Text, StyleProp, ViewStyle, Touchable} from 'react-native';
+import {View, Text, StyleProp, ViewStyle, TouchableOpacity} from 'react-native';
 import React, {ReactNode} from 'react';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 import TextComponent from './TextComponent';
 import {appColors} from '../constants/appColor';
 
@@ -13,7 +12,7 @@ interface Props {
   textColor?: string;
   textStyles?: StyleProp<ViewStyle>;
   onPress?: () => void;
-  iconFlex: 'right' | 'left';
+  iconFlex?: 'right' | 'left';
 }
 
 const ButtonComponent = (props: Props) => {

@@ -1,7 +1,12 @@
-import {View, Text, StyleSheet, KeyboardType} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  KeyboardType,
+  TouchableOpacity,
+  TextInput,
+} from 'react-native';
 import React, {ReactNode, useState} from 'react';
-import {TextInput, TouchableOpacity} from 'react-native-gesture-handler';
-import {EyeSlash} from 'iconsax-react-native';
 import {appColors} from '../constants/appColor';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -40,7 +45,8 @@ const InputComponent = (props: Props) => {
         onChangeText={val => onChange(val)}
         secureTextEntry={isShowPass}
         placeholderTextColor={'#747688'}
-        keyboardType={type ?? 'default'}></TextInput>
+        keyboardType={type ?? 'default'}
+        autoCapitalize="none"></TextInput>
       {suffix ?? suffix}
       <TouchableOpacity
         onPress={
