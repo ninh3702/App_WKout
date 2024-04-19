@@ -1,40 +1,73 @@
-import {View, Text, Button} from 'react-native';
+import {View, Text, Button, Image, Switch} from 'react-native';
 import React, {useState} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {globalStyles} from '../../styles/globalStyles';
-import {InputComponent} from '../../components';
+import {
+  ButtonComponent,
+  ContainerComponent,
+  InputComponent,
+  RowComponent,
+  SectionComponent,
+  SpaceComponent,
+  TextComponent,
+} from '../../components';
 import {Lock, Sms} from 'iconsax-react-native';
 import {appColors} from '../../constants/appColor';
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isRemember, setIsRemember] = useState(true);
 
   return (
-    <View
-      style={[
-        globalStyles.container,
-        {
-          alignItems: 'center',
+    <ContainerComponent isImageBackground isScroll>
+      <SectionComponent
+        styles={{
           justifyContent: 'center',
-          flexDirection: 'column',
-        },
-      ]}>
-      <InputComponent
-        value={email}
-        placeholder="Email"
-        onChange={val => setEmail(val)}
-        allowClear
-        affix={<Sms size={22} color={appColors.gray} />}
-      />
-      <InputComponent
-        value={password}
-        placeholder="Password"
-        onChange={val => setPassword(val)}
-        allowClear
-        affix={<Lock size={22} color={appColors.gray} />}
-      />
-    </View>
+          alignItems: 'center',
+          marginTop: 75,
+        }}>
+        <Image
+          source={require('../../assets/images/logo.png')}
+          style={{width: 162, height: 114, marginBottom: 30}}></Image>
+      </SectionComponent>
+      <SectionComponent>
+        <TextComponent text="Sign in" title size={24} />
+        <SpaceComponent height={21} />
+        <InputComponent
+          value={email}
+          placeholder="Email"
+          onChange={val => setEmail(val)}
+          allowClear
+          affix={<Sms size={22} color={appColors.gray} />}
+        />
+        <InputComponent
+          isPassword
+          value={password}
+          placeholder="Password"
+          onChange={val => setPassword(val)}
+          allowClear
+          affix={<Lock size={22} color={appColors.gray} />}
+        />
+        <RowComponent justify="space-between">
+          <RowComponent>
+            <Switch
+              trackColor={{true: appColors.primary}}
+              thumbColor={appColors.white}
+              value={isRemember}
+              onChange={() => setIsRemember(!isRemember)}
+            />
+            <SpaceComponent width={4} />
+            <TextComponent text="Remember me" />
+          </RowComponent>
+          <ButtonComponent
+            text="Forgot Password?"
+            onPress={() => {}}
+            type="text"
+          />
+        </RowComponent>
+      </SectionComponent>
+    </ContainerComponent>
   );
 };
 
