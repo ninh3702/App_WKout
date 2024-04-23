@@ -65,7 +65,7 @@ const AskingScreen = ({navigation}: any) => {
             index < 2 ? setIndex(index + 1) : navigation.navigate('LoginScreen')
           }>
           <TextComponent
-            text="Skip"
+            text="Next"
             color={appColors.gray2}
             font={fontFamilies.medium}></TextComponent>
         </TouchableOpacity>

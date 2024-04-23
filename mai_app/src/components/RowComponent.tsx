@@ -1,4 +1,4 @@
-import {View, Text, StyleProp, ViewStyle} from 'react-native';
+import {View, Text, StyleProp, ViewStyle, TouchableOpacity} from 'react-native';
 import React, {ReactNode} from 'react';
 import {globalStyles} from '../styles/globalStyles';
 
@@ -13,14 +13,18 @@ interface Props {
     | undefined;
   styles?: StyleProp<ViewStyle>;
   children: ReactNode;
+  onPress?: () => void;
 }
 
 const RowComponent = (props: Props) => {
-  const {justify, styles, children} = props;
-  return (
-    <View style={[globalStyles.row, styles, {justifyContent: justify}]}>
+  const {justify, styles, children, onPress} = props;
+  const localStyle = [globalStyles.row, styles, {justifyContent: justify}];
+  return onPress ? (
+    <TouchableOpacity activeOpacity={1} onPress={onPress} style={localStyle}>
       {children}
-    </View>
+    </TouchableOpacity>
+  ) : (
+    <View style={[localStyle]}>{children}</View>
   );
 };
 
