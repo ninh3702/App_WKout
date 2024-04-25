@@ -14,11 +14,21 @@ import {
 import {Lock, Sms} from 'iconsax-react-native';
 import {appColors} from '../../constants/appColor';
 import SocialLogin from './SocialLogin';
+import authenticationAPI from '../../apis/authApi';
 
 const LoginScreen = ({navigation}: any) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isRemember, setIsRemember] = useState(true);
+
+  const handleLogin = async () => {
+    try {
+      const res = await authenticationAPI.HandleAuthentication('/hello');
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <ContainerComponent isImageBackground isScroll>
@@ -69,7 +79,10 @@ const LoginScreen = ({navigation}: any) => {
       </SectionComponent>
       <SpaceComponent height={16} />
       <SectionComponent>
-        <ButtonComponent text="SIGN IN" type="primary"></ButtonComponent>
+        <ButtonComponent
+          text="SIGN IN"
+          type="primary"
+          onPress={handleLogin}></ButtonComponent>
       </SectionComponent>
       <SectionComponent>
         <RowComponent justify="center">
