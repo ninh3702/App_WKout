@@ -20,7 +20,7 @@ import {SelectModel} from '../models/SelectModel';
 import {ImageOrVideo} from 'react-native-image-crop-picker';
 import {Validate} from '../utils/validate';
 import {appColors} from '../constants/appColors';
-import storage from '@react-native-firebase/storage';
+// import storage from '@react-native-firebase/storage';
 import {EventModel} from '../models/EventModel';
 import eventAPI from '../apis/eventApi';
 
@@ -103,27 +103,27 @@ const AddNewScreen = ({navigation}: any) => {
       }`;
       const path = `images/${filename}`;
 
-      const res = storage().ref(path).putFile(fileSelected.path);
+      // const res = storage().ref(path).putFile(fileSelected.path);
 
-      res.on(
-        'state_changed',
-        snap => {
-          console.log(snap.bytesTransferred);
-        },
-        error => {
-          console.log(error);
-        },
-        () => {
-          storage()
-            .ref(path)
-            .getDownloadURL()
-            .then(url => {
-              eventData.photoUrl = url;
+      // res.on(
+      //   'state_changed',
+      //   snap => {
+      //     console.log(snap.bytesTransferred);
+      //   },
+      //   error => {
+      //     console.log(error);
+      //   },
+      //   () => {
+      //     storage()
+      //       .ref(path)
+      //       .getDownloadURL()
+      //       .then(url => {
+      //         eventData.photoUrl = url;
 
-              handlePustEvent(eventData);
-            });
-        },
-      );
+      //         handlePustEvent(eventData);
+      //       });
+      //   },
+      // );
     } else {
       handlePustEvent(eventData);
     }

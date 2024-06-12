@@ -17,7 +17,7 @@ import {
 } from '../components';
 import {appColors} from '../constants/appColors';
 import {LocationModel} from '../models/LocationModel';
-import MapView from 'react-native-maps';
+// import MapView from 'react-native-maps';
 import {appInfo} from '../constants/appInfos';
 import {AddressModel} from '../models/AddressModel';
 import GeoLocation from '@react-native-community/geolocation';
@@ -186,7 +186,7 @@ const ModalLocation = (props: Props) => {
           <SpaceComponent width={12} />
           <ButtonComponent text="Cancel" type="link" onPress={handleClose} />
         </RowComponent>
-        {currentLocation && (
+        {/* {currentLocation && (
           <MapView
             style={{
               width: appInfo.sizes.WIDTH,
@@ -213,7 +213,7 @@ const ModalLocation = (props: Props) => {
             }}
             mapType="standard"
           />
-        )}
+        )} */}
         <View
           style={{
             position: 'absolute',
