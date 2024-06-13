@@ -10,6 +10,7 @@ import DateTimePicker from './DateTimePicker';
 import DropdownPicker from './DropdownPicker';
 import EventItem from './EventItem';
 import InputComponent from './InputComponent';
+import MakerCustom from './MakerCustom';
 import RowComponent from './RowComponent';
 import SectionComponent from './SectionComponent';
 import SpaceComponent from './SpaceComponent';
@@ -38,4 +39,5 @@ export {
   DropdownPicker,
   TabBarComponent,
   TagComponent,
+  MakerCustom,
 };

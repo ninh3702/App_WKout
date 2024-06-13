@@ -4,6 +4,7 @@ import DrawerNavigator from './DrawerNavigator';
 import {useDispatch, useSelector} from 'react-redux';
 import {addAuth, authSelector} from '../redux/reducers/authReducer';
 import authenticationAPI from '../apis/authApi';
+import {EventDetail} from '../screens';
 
 const MainNavigator = () => {
   const Stack = createNativeStackNavigator();
@@ -26,6 +27,7 @@ const MainNavigator = () => {
         headerShown: false,
       }}>
       <Stack.Screen name="Main" component={DrawerNavigator} />
+      <Stack.Screen name="EventDetail" component={EventDetail} />
     </Stack.Navigator>
   );
 };

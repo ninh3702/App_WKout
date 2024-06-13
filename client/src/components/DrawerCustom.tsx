@@ -125,7 +125,6 @@ const DrawerCustom = ({navigation}: any) => {
               item.key === 'SignOut'
                 ? () => handleSignOut()
                 : () => {
-                    console.log(item.key);
                     navigation.closeDrawer();
                   }
             }>

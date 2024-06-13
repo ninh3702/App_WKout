@@ -28,7 +28,6 @@ axiosClient.interceptors.request.use(async (config: any) => {
 
 axiosClient.interceptors.response.use(
   res => {
-    console.log(res.data);
     if (res.data && res.status === 200) {
       return res.data;
     }

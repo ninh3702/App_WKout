@@ -2,7 +2,7 @@ import {ArrowRight2, Location} from 'iconsax-react-native';
 import React, {useState} from 'react';
 import {RowComponent, SpaceComponent, TextComponent} from '.';
 import {appColors} from '../constants/appColors';
-import ModalLocation from '../modals/ModalLocation.tsx';
+import ModalLocation from '../modals/ModalLocation';
 import {globalStyles} from '../styles/globalStyles';
 
 interface Props {
@@ -41,7 +41,10 @@ const ChoiceLocation = (props: Props) => {
       <ModalLocation
         visible={isVibleModalLocation}
         onClose={() => setIsVibleModalLocation(false)}
-        onSelect={val => setAddressSelected(val)}
+        onSelect={val => {
+          setAddressSelected(val);
+          onSelect(val);
+        }}
       />
     </>
   );
