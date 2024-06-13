@@ -43,29 +43,71 @@ const addNewEvent = asyncHandle(async (req, res) => {
 });
 
 const getEvents = asyncHandle(async (req, res) => {
-  const { lat, long, distance } = req.query;
+  const { lat, long, distance, limit, date } = req.query;
 
-  const events = await EventModel.find({});
-  const items = [];
-  if (events.length > 0) {
-    events.forEach((event) => {
-      const eventDistance = calcDistanceLocation({
-        curentLong: long,
-        currentLat: lat,
-        addressLat: event.position.lat,
-        addressLong: event.position.long,
+  const events = await EventModel.find({})
+    .sort({ createdAt: -1 })
+    .limit(limit ?? 0);
+
+  if (lat && long && distance) {
+    const items = [];
+    if (events.length > 0) {
+      events.forEach((event) => {
+        const eventDistance = calcDistanceLocation({
+          curentLong: long,
+          currentLat: lat,
+          addressLat: event.position.lat,
+          addressLong: event.position.long,
+        });
+
+        if (eventDistance < distance) {
+          items.push(event);
+        }
       });
+    }
 
-      if (eventDistance < distance) {
-        items.push(event);
-      }
+    res.status(200).json({
+      message: "get events ok",
+      data: date
+        ? items.filter((element) => element.date > new Date(date))
+        : items,
+    });
+  } else {
+    res.status(200).json({
+      message: "get events ok",
+      data: date
+        ? events.filter((element) => element.date > new Date(date))
+        : events,
     });
   }
+});
+
+const updateFollowers = asyncHandle(async (req, res) => {
+  const body = req.body;
+  const { id, followers } = body;
+
+  await EventModel.findByIdAndUpdate(id, { followers, updatedAt: Date.now() });
 
   res.status(200).json({
-    message: "get events ok",
-    data: items,
+    mess: "Update followers successfully!",
+    data: [],
   });
 });
 
-module.exports = { addNewEvent, getEvents };
+const getFollowers = asyncHandle(async (req, res) => {
+  const { id } = req.query;
+
+  const event = await EventModel.findById(id);
+
+  if (event) {
+    res.status(200).json({
+      mess: "Followers",
+      data: event.followers ?? [],
+    });
+  } else {
+    res.status(401);
+    throw new Error("Event not found");
+  }
+});
+
+module.exports = { addNewEvent, getEvents, updateFollowers, getFollowers };

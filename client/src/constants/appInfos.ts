@@ -19,6 +19,7 @@ export const appInfo = {
     'November',
     'December',
   ],
+  dayNames: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
 
   // BASE_URL: 'http://192.168.1.4:3001',
   BASE_URL: 'http://192.168.1.9:3001',
