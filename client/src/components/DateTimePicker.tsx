@@ -6,7 +6,7 @@ import {ArrowDown2, Calendar, Clock} from 'iconsax-react-native';
 import {appColors} from '../constants/appColors';
 import {globalStyles} from '../styles/globalStyles';
 import {fontFamilies} from '../constants/fontFamilies';
-import {DateTime} from '../utils/DateTime.ts';
+import {DateTime} from '../utils/DateTime';
 
 interface Props {
   selected?: Date;

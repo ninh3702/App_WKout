@@ -17,7 +17,7 @@ import {
 } from '../components';
 import {appColors} from '../constants/appColors';
 import {LocationModel} from '../models/LocationModel';
-// import MapView from 'react-native-maps';
+import MapView from 'react-native-maps';
 import {appInfo} from '../constants/appInfos';
 import {AddressModel} from '../models/AddressModel';
 import GeoLocation from '@react-native-community/geolocation';
@@ -51,33 +51,25 @@ const ModalLocation = (props: Props) => {
   }>();
 
   useEffect(() => {
-    GeoLocation.getCurrentPosition(
-      position => {
-        if (position.coords) {
-          setCurrentLocation({
-            lat: position.coords.latitude,
-            long: position.coords.longitude,
-          });
-        }
-      },
-      error => {
-        console.log(error);
-      },
-      {},
-    );
+    GeoLocation.getCurrentPosition(position => {
+      if (position.coords) {
+        setCurrentLocation({
+          lat: position.coords.latitude,
+          long: position.coords.longitude,
+        });
+      }
+    });
   }, []);
 
   useEffect(() => {
-    GeoCoder.from(addressSelected)
-      .then(res => {
-        const position = res.results[0].geometry.location;
+    GeoCoder.from(addressSelected).then(res => {
+      const position = res.results[0].geometry.location;
 
-        setCurrentLocation({
-          lat: position.lat,
-          long: position.lng,
-        });
-      })
-      .catch(error => console.log(error));
+      setCurrentLocation({
+        lat: position.lat,
+        long: position.lng,
+      });
+    });
   }, [addressSelected]);
 
   useEffect(() => {
@@ -105,31 +97,6 @@ const ModalLocation = (props: Props) => {
     } catch (error) {
       console.log(error);
     }
-  };
-
-  const handleGetAddressFromPosition = ({
-    latitude,
-    longitude,
-  }: {
-    latitude: number;
-    longitude: number;
-  }) => {
-    onSelect({
-      address: 'This is demo address',
-      postion: {
-        lat: latitude,
-        long: longitude,
-      },
-    });
-    onClose();
-    GeoCoder.from(latitude, longitude)
-      .then(data => {
-        console.log(data);
-        console.log(data.results[0].address_components[0]);
-      })
-      .catch(error => {
-        console.log(error);
-      });
   };
 
   return (
@@ -186,11 +153,11 @@ const ModalLocation = (props: Props) => {
           <SpaceComponent width={12} />
           <ButtonComponent text="Cancel" type="link" onPress={handleClose} />
         </RowComponent>
-        {/* {currentLocation && (
+        {currentLocation && (
           <MapView
             style={{
               width: appInfo.sizes.WIDTH,
-              height: appInfo.sizes.HEIGHT - 220,
+              height: 500,
               marginVertical: 40,
               zIndex: -1,
             }}
@@ -202,9 +169,6 @@ const ModalLocation = (props: Props) => {
               latitudeDelta: 0.0922,
               longitudeDelta: 0.0421,
             }}
-            onPress={event =>
-              handleGetAddressFromPosition(event.nativeEvent.coordinate)
-            }
             region={{
               latitude: currentLocation.lat,
               longitude: currentLocation.long,
@@ -213,28 +177,19 @@ const ModalLocation = (props: Props) => {
             }}
             mapType="standard"
           />
-        )} */}
-        <View
-          style={{
-            position: 'absolute',
-            bottom: 10,
-            left: 0,
-            right: 0,
-          }}>
-          <ButtonComponent
-            styles={{marginBottom: 40}}
-            text="Confirm"
-            onPress={() => {
-              onSelect({
-                address: addressSelected,
-                postion: currentLocation,
-              });
+        )}
+        <ButtonComponent
+          text="Confirm"
+          onPress={() => {
+            onSelect({
+              address: addressSelected,
+              postion: currentLocation,
+            });
 
-              onClose();
-            }}
-            type="primary"
-          />
-        </View>
+            onClose();
+          }}
+          type="primary"
+        />
       </View>
     </Modal>
   );

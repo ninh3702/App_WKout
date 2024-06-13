@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "512698035633",
+    "project_id": "eventhub-7be6d",
+    "storage_bucket": "eventhub-7be6d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:512698035633:android:eae48e40ab269a9907a190",
+        "android_client_info": {
+          "package_name": "com.mai_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCp2bboBQFBFVDhTwnpyG0yP9VHGmpsbyE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
