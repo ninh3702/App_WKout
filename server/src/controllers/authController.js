@@ -47,7 +47,7 @@ const register = asyncHandle(async (req, res) => {
     data: {
       email: newUser.email,
       id: newUser.id,
-      accesstoken: await getJWT(email, newUser.id),
+      accesstoken: await getJsonWebToken(email, newUser.id),
       name: newUser.name,
     },
   });
@@ -73,7 +73,7 @@ const login = asyncHandle(async (req, res) => {
     data: {
       id: existingUser.id,
       email: existingUser.email,
-      accesstoken: await getJWT(email, existingUser.id),
+      accesstoken: await getJsonWebToken(email, existingUser.id),
     },
   });
 });
@@ -87,9 +87,9 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-const getJWT = async (email, id) => {
+const getJsonWebToken = async (email, id) => {
   const payload = { email, id };
-  const token = jwt.sign(payload, process.env.JWT, {
+  const token = jwt.sign(payload, process.env.SECRET_KEY, {
     expiresIn: "7d",
   });
   return token;
@@ -186,7 +186,7 @@ const handleLoginWithGoogle = asyncHandle(async (req, res) => {
       updatedAt: Date.now(),
     });
 
-    user.accesstoken = await getJWT(userInfo.email, existingUser.id);
+    user.accesstoken = await getJsonWebToken(userInfo.email, existingUser.id);
     console.log(user);
   } else {
     const newUser = new UserModel({
@@ -196,7 +196,7 @@ const handleLoginWithGoogle = asyncHandle(async (req, res) => {
     });
     console.log(newUser);
     await newUser.save();
-    user.accesstoken = await getJWT(userInfo.email, newUser.id);
+    user.accesstoken = await getJsonWebToken(userInfo.email, newUser.id);
   }
   console.log(user);
   res.status(200).json({
