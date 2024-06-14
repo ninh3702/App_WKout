@@ -40,6 +40,8 @@ import {EventModel} from '../../models/EventModel';
 import messaging, {
   FirebaseMessagingTypes,
 } from '@react-native-firebase/messaging';
+import {useSelector} from 'react-redux';
+import {authSelector} from '../../redux/reducers/authReducer';
 
 Geocoder.init(process.env.MAP_API_KEY as string);
 
@@ -48,7 +50,6 @@ const HomeScreen = ({navigation}: any) => {
   const [events, setEvents] = useState<EventModel[]>([]);
   const [nearbyEvents, setNearbyEvents] = useState<EventModel[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-
   useEffect(() => {
     GeoLocation.getCurrentPosition(
       (position: any) => {
