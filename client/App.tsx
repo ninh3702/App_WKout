@@ -1,23 +1,24 @@
-import {View, Text, StatusBar} from 'react-native';
-import React, {useEffect, useState} from 'react';
-import {LoginScreen, SplashScreen} from './src/screens';
-import AuthNavigator from './src/navigators/AuthNavigator';
 import {NavigationContainer} from '@react-navigation/native';
-import {useAsyncStorage} from '@react-native-async-storage/async-storage';
-import MainNavigator from './src/navigators/MainNavigator';
-import AppRouters from './src/navigators/AppRouters';
+import React, {useEffect} from 'react';
+import {StatusBar} from 'react-native';
 import {Provider} from 'react-redux';
+import AppRouters from './src/navigators/AppRouters';
 import store from './src/redux/store';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {Host} from 'react-native-portalize';
+import {HandleNotification} from './src/utils/handleNotification';
 
 const App = () => {
+  useEffect(() => {
+    HandleNotification.checkNotificationPersion();
+  }, []);
+
   return (
     <GestureHandlerRootView style={{flex: 1}}>
       <Provider store={store}>
         <StatusBar
-          barStyle={'dark-content'}
-          backgroundColor={'transparent'}
+          barStyle="dark-content"
+          backgroundColor="transparent"
           translucent
         />
         <Host>

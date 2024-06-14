@@ -1,3 +1,5 @@
+/** @format */
+
 const { default: mongoose } = require("mongoose");
 
 const UserSchema = new mongoose.Schema({
@@ -7,18 +9,19 @@ const UserSchema = new mongoose.Schema({
   givenName: {
     type: String,
   },
-  email: {
-    type: String,
-    require: true,
-  },
   familyName: {
     type: String,
   },
   photo: {
     type: String,
   },
+  email: {
+    type: String,
+    require: true,
+  },
   password: {
     type: String,
+    require: true,
   },
   photoUrl: {
     type: String,
@@ -30,6 +33,9 @@ const UserSchema = new mongoose.Schema({
   updatedAt: {
     type: Date,
     default: Date.now(),
+  },
+  fcmTokens: {
+    type: [String],
   },
 });
 
