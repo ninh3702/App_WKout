@@ -46,6 +46,11 @@ const HomeScreen = ({navigation}: any) => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    Geocoder.from(
+      '05 Đ. Nguyễn Tri Phương, Khu phố 4, Dĩ An, Bình Dương, Vietnam',
+    ).then(position => {
+      console.log(position.results[0].geometry.location);
+    });
     GeoLocation.getCurrentPosition(
       (position: any) => {
         if (position.coords) {
@@ -55,6 +60,7 @@ const HomeScreen = ({navigation}: any) => {
           });
         }
       },
+
       (error: any) => {
         console.log(error);
       },
