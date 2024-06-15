@@ -1,7 +1,7 @@
-import {View, Text, Button, Image, Switch, Alert} from 'react-native';
-import React, {useState} from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {globalStyles} from '../../styles/globalStyles';
+import {Cake, Lock, Sms} from 'iconsax-react-native';
+import React, {useEffect, useState} from 'react';
+import {Alert, Image, Switch, TouchableOpacity} from 'react-native';
+import authenticationAPI from '../../apis/authApi';
 import {
   ButtonComponent,
   ContainerComponent,
@@ -11,23 +11,39 @@ import {
   SpaceComponent,
   TextComponent,
 } from '../../components';
-import {Lock, Sms} from 'iconsax-react-native';
 import {appColors} from '../../constants/appColors';
-import SocialLogin from './SocialLogin';
-import authenticationAPI from '../../apis/authApi';
 import {Validate} from '../../utils/validate';
+import SocialLogin from './components/SocialLogin';
 import {useDispatch} from 'react-redux';
 import {addAuth} from '../../redux/reducers/authReducer';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {LoadingModal} from '../../modals';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
 
 const LoginScreen = ({navigation}: any) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isRemember, setIsRemember] = useState(true);
+  const [isDisable, setIsDisable] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+
   const dispatch = useDispatch();
-  const handleLogin = async () => {
+
+  useEffect(() => {
     const emailValidation = Validate.email(email);
 
+    if (!email || !password || !emailValidation) {
+      setIsDisable(true);
+    } else {
+      setIsDisable(false);
+    }
+  }, [email, password]);
+
+  const handleLogin = async () => {
+    const emailValidation = Validate.email(email);
+    setIsLoading(true);
     if (emailValidation) {
+      setIsLoading(true);
       try {
         const res = await authenticationAPI.HandleAuthentication(
           '/login',
@@ -35,19 +51,20 @@ const LoginScreen = ({navigation}: any) => {
           'post',
         );
         dispatch(addAuth(res.data));
-        if (isRemember) {
-          await AsyncStorage.setItem(
-            'auth',
-            isRemember ? JSON.stringify(res.data) : email,
-          );
-        } else {
-        }
-        console.log(res);
+
+        await AsyncStorage.setItem(
+          'auth',
+          isRemember ? JSON.stringify(res.data) : email,
+        );
+
+        setIsLoading(false);
       } catch (error) {
         console.log(error);
+
+        setIsLoading(false);
       }
     } else {
-      Alert.alert('Email is not correct');
+      Alert.alert('Email is not correct!!!!');
     }
   };
 
@@ -57,13 +74,19 @@ const LoginScreen = ({navigation}: any) => {
         styles={{
           justifyContent: 'center',
           alignItems: 'center',
+          marginTop: 75,
         }}>
         <Image
-          source={require('../../assets/images/logo.png')}
-          style={{width: 162, height: 114, marginBottom: 30}}></Image>
+          source={require('../../assets/images/text-logo.png')}
+          style={{
+            width: 162,
+            height: 114,
+            marginBottom: 30,
+          }}
+        />
       </SectionComponent>
       <SectionComponent>
-        <TextComponent text="Sign in" title size={24} />
+        <TextComponent size={24} title text="Sign in" />
         <SpaceComponent height={21} />
         <InputComponent
           value={email}
@@ -73,10 +96,10 @@ const LoginScreen = ({navigation}: any) => {
           affix={<Sms size={22} color={appColors.gray} />}
         />
         <InputComponent
-          isPassword
           value={password}
           placeholder="Password"
           onChange={val => setPassword(val)}
+          isPassword
           allowClear
           affix={<Lock size={22} color={appColors.gray} />}
         />
@@ -101,13 +124,20 @@ const LoginScreen = ({navigation}: any) => {
       <SpaceComponent height={16} />
       <SectionComponent>
         <ButtonComponent
+          disable={isLoading || isDisable}
+          onPress={handleLogin}
           text="SIGN IN"
           type="primary"
-          onPress={handleLogin}></ButtonComponent>
+        />
       </SectionComponent>
+
+      {/* <TouchableOpacity onPress={async () => await GoogleSignin.signOut()}>
+        <TextComponent text="fafafa" />
+      </TouchableOpacity> */}
+      <SocialLogin />
       <SectionComponent>
         <RowComponent justify="center">
-          <TextComponent text="Don't have account ?"></TextComponent>
+          <TextComponent text="Don’t have an account? " />
           <ButtonComponent
             type="link"
             text="Sign up"
@@ -115,7 +145,7 @@ const LoginScreen = ({navigation}: any) => {
           />
         </RowComponent>
       </SectionComponent>
-      <SocialLogin />
+      <LoadingModal visible={isLoading} />
     </ContainerComponent>
   );
 };

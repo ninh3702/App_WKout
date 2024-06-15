@@ -13,7 +13,7 @@ import {
 } from '../../components';
 import {Lock, Profile, ProfileAdd, Sms} from 'iconsax-react-native';
 import {appColors} from '../../constants/appColors';
-import SocialLogin from './SocialLogin';
+import SocialLogin from './components/SocialLogin';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {LoadingModal} from '../../modals';
 import authenticationAPI from '../../apis/authApi';

@@ -1,16 +1,21 @@
-import React, {ReactNode, useState} from 'react';
 import {
+  View,
+  Text,
+  TouchableOpacity,
+  TextInput,
+  StyleSheet,
+  TextInputProps,
   KeyboardType,
   StyleProp,
-  TextInput,
-  TouchableOpacity,
-  View,
   ViewStyle,
 } from 'react-native';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import React, {ReactNode, useState} from 'react';
+import {Touchable} from 'react-native';
+import {EyeSlash} from 'iconsax-react-native';
 import {appColors} from '../constants/appColors';
 import {globalStyles} from '../styles/globalStyles';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 interface Props {
   value: string;
@@ -46,14 +51,7 @@ const InputComponent = (props: Props) => {
   const [isShowPass, setIsShowPass] = useState(isPassword ?? false);
 
   return (
-    <View
-      style={[
-        globalStyles.inputContainer,
-        {
-          alignItems: multiline ? 'flex-start' : 'center',
-        },
-        styles,
-      ]}>
+    <View style={[globalStyles.inputContainer, styles]}>
       {affix ?? affix}
       <TextInput
         style={[
@@ -61,7 +59,7 @@ const InputComponent = (props: Props) => {
           globalStyles.text,
           {
             paddingHorizontal: affix || suffix ? 12 : 0,
-            textAlignVertical: multiline ? 'top' : 'center',
+            textAlignVertical: multiline ? 'top' : 'auto',
           },
         ]}
         multiline={multiline}

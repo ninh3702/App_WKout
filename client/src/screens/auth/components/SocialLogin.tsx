@@ -3,18 +3,18 @@ import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import React, {useState} from 'react';
 // import {LoginManager, Profile, Settings} from 'react-native-fbsdk-next';
 import {useDispatch} from 'react-redux';
-import authenticationAPI from '../../apis/authApi';
-import {Facebook, Google} from '../../assets/svgs';
+import authenticationAPI from '../../../apis/authApi';
+import {Facebook, Google} from '../../../assets/svgs';
 import {
   ButtonComponent,
   SectionComponent,
   SpaceComponent,
   TextComponent,
-} from '../../components';
-import {appColors} from '../../constants/appColors';
-import {fontFamilies} from '../../constants/fontFamilies';
-import {LoadingModal} from '../../modals';
-import {addAuth, removeAuth} from '../../redux/reducers/authReducer';
+} from '../../../components';
+import {appColors} from '../../../constants/appColors';
+import {fontFamilies} from '../../../constants/fontFamilies';
+import {LoadingModal} from '../../../modals';
+import {addAuth, removeAuth} from '../../../redux/reducers/authReducer';
 import {Button} from 'react-native';
 import {LoginButton, Settings} from 'react-native-fbsdk-next';
 
@@ -30,6 +30,7 @@ const SocialLogin = () => {
   const dispatch = useDispatch();
 
   const handleLoginWithGoogle = async () => {
+    setIsLoading(true);
     await GoogleSignin.hasPlayServices({
       showPlayServicesUpdateDialog: true,
     });
@@ -46,8 +47,10 @@ const SocialLogin = () => {
       console.log(res.data);
       dispatch(addAuth(res.data));
       await AsyncStorage.setItem('auth', JSON.stringify(res.data));
+      setIsLoading(false);
     } catch (error) {
       console.log(error);
+      setIsLoading(false);
     }
 
     // try {

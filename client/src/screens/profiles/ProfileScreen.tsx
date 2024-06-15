@@ -11,7 +11,11 @@ import {
   TextComponent,
 } from '../../components';
 import {ProfileModel} from '../../models/ProfileModel';
-import {AuthState, authSelector} from '../../redux/reducers/authReducer';
+import {
+  AuthState,
+  addAuth,
+  authSelector,
+} from '../../redux/reducers/authReducer';
 import {globalStyles} from '../../styles/globalStyles';
 import AboutProfile from './components/AboutProfile';
 import EditProfile from './components/EditProfile';
@@ -25,11 +29,16 @@ const ProfileScreen = ({navigation, route}: any) => {
   const dispatch = useDispatch();
   const auth: AuthState = useSelector(authSelector);
 
+  console.log(auth, profile?.photoUrl);
+
   useEffect(() => {
     if (route.params) {
       const {id} = route.params;
-
       setProfileId(id);
+
+      if (route.params.isUpdated) {
+        getProfile();
+      }
     } else {
       setProfileId(auth.id);
     }
@@ -48,7 +57,6 @@ const ProfileScreen = ({navigation, route}: any) => {
     setIsLoading(true);
     try {
       const res = await userAPI.HandleUser(api);
-      console.log(res);
       res && res.data && setProfile(res.data);
 
       setIsLoading(false);
@@ -115,7 +123,11 @@ const ProfileScreen = ({navigation, route}: any) => {
               </View>
             </RowComponent>
           </SectionComponent>
-          {auth.id !== profileId ? <AboutProfile /> : <EditProfile />}
+          {auth.id !== profileId ? (
+            <AboutProfile />
+          ) : (
+            <EditProfile profile={profile} />
+          )}
         </>
       ) : (
         <TextComponent text="profile not found!" />

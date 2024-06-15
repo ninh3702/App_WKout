@@ -47,9 +47,10 @@ const getEventsFollowed = asyncHandle(async (req, res) => {
 });
 const getProfile = asyncHandle(async (req, res) => {
   const { uid } = req.query;
+
   if (uid) {
     const profile = await UserModel.findOne({ _id: uid });
-    console.log(profile);
+
     res.status(200).json({
       message: "fafa",
       data: {
@@ -147,10 +148,28 @@ const getFollowes = asyncHandle(async (req, res) => {
     res.sendStatus(404);
   }
 });
+
+const updateProfile = asyncHandle(async (req, res) => {
+  const body = req.body;
+  const { uid } = req.query;
+
+  if (uid && body) {
+    await UserModel.findByIdAndUpdate(uid, body);
+
+    res.status(200).json({
+      message: "Update profile successfully!!",
+      data: [],
+    });
+  } else {
+    res.sendStatus(401);
+    throw new Error("Missing data");
+  }
+});
 module.exports = {
   getAllUsers,
   getEventsFollowed,
   updateFcmToken,
   getProfile,
   getFollowes,
+  updateProfile,
 };
