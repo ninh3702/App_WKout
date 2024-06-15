@@ -6,7 +6,7 @@ import {appColors} from '../constants/appColors';
 
 interface Props {
   icon?: ReactNode;
-  title: string;
+  title?: string;
   isFill?: boolean;
   color?: string;
   onPress?: () => void;
@@ -32,7 +32,7 @@ const TagComponent = (props: Props) => {
       ]}>
       {icon && icon}
       <TextComponent
-        text={title}
+        text={title ? title : ''}
         styles={{marginLeft: icon ? 8 : 0}}
         color={
           textColor ? textColor : bgColor ? appColors.white : appColors.gray

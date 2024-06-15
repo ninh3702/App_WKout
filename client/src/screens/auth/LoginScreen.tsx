@@ -77,7 +77,7 @@ const LoginScreen = ({navigation}: any) => {
           marginTop: 75,
         }}>
         <Image
-          source={require('../../assets/images/text-logo.png')}
+          source={require('../../assets/images/logo.png')}
           style={{
             width: 162,
             height: 114,
